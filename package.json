@@ -1,0 +1,25 @@
+{
+  "name": "schoolwork",
+  "version": "1.0.0",
+  "description": "学校の勉強！",
+  "main": "generateHtml.js",
+  "scripts": {
+    "docs": "node generateHtml.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TwoSquirrels/Schoolwork.git"
+  },
+  "author": "TwoSquirrels",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/TwoSquirrels/Schoolwork/issues"
+  },
+  "homepage": "https://github.com/TwoSquirrels/Schoolwork#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@shd101wyy/mume": "^0.6.8",
+    "fs-extra": "^10.0.0",
+    "glob": "^7.1.7"
+  }
+}
