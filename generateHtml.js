@@ -80,6 +80,9 @@ const find = util.promisify(glob);
     })
   );
 
+  // generate config file
+  await fs.promises.writeFile("docs/_config.yml", "theme: jekyll-theme-merlot", "utf-8");
+
   // generate index page
   let index = `\
 # りすりすの勉強部屋
