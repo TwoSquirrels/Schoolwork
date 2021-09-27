@@ -139,7 +139,7 @@ const find = util.promisify(glob);
       } else
         index += `${"  ".repeat(depth)}- [${path.basename(item.name)}](${
           item.name
-        })\n`;
+        }.html)\n`;
     });
   })(sitemap, 0);
   await fs.promises.writeFile("docs/index.md", index, "utf-8");
