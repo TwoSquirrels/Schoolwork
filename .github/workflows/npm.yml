@@ -16,5 +16,5 @@ jobs:
     - run: git config --local user.email "action@github.com"
     - run: git config --local user.name "GitHub Action"
     - run: git add -A
-    - run: git commit --amend -C HEAD
-    - run: git push --force
+    - run: git commit -m "自動docsビルド"
+    - run: git push
