@@ -22,7 +22,9 @@
     transition: color 0.25s;
   }
   &.hidered strong {
-    background-color: #FFF;
+    @media print {
+      background-color: #FFF;
+    }
     color: fade(#F64, 0%);
   }
 }
