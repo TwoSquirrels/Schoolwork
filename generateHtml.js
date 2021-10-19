@@ -97,12 +97,17 @@ const find = util.promisify(glob);
         // add noindex
         await fs.promises.writeFile(
           `docs/${mdPath}.html`,
-          (
-            await fs.promises.readFile(`docs/${mdPath}.html`, "utf-8")
-          ).replace(
-            /<title>/,
-            '<meta name="robots" content="noindex">\n      <title>'
-          ),
+          (await fs.promises.readFile(`docs/${mdPath}.html`, "utf-8"))
+            .replace(
+              /<title>/,
+              '<meta name="robots" content="noindex">\n      <title>'
+            )
+            .replace(
+              /<\/body>/,
+              '<div class="switch"><span>赤文字非表示: </span><input type="checkbox" onclick="' +
+                "document.querySelector('.markdown-preview').classList.toggle('hidered')" +
+                '" /></div>\n    </body>'
+            ),
           "utf-8"
         );
 
