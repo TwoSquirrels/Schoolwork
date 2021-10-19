@@ -282,8 +282,12 @@ pre[data-line] .line-highlight[data-end]:after {
   }
 }
 .markdown-preview.hidered strong {
-  background-color: #FFF;
   color: rgba(255, 102, 68, 0);
+}
+@media print {
+  .markdown-preview.hidered strong {
+    background-color: #FFF;
+  }
 }
 .switch {
   position: fixed;
