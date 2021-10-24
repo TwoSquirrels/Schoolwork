@@ -1,55 +1,68 @@
-.markdown-preview {
-  vertical-align: middle;
-  h2::before {
-    content: "◎";
-  }
-  ul {
-    list-style-type: upper-alpha;
-  }
-  ol {
-    list-style-type: disc;
-  }
-  strong {
-    margin: 0 0.125em;
-    border: 1px solid black;
-    padding: 0.125em;
-    font-size: 1.25em;
-    background-color: #FDC;
-    color: fade(#F64, 100%);
-    @media print {
-      color: fade(#F64, 75%);
+html > body[for="html-export"] {
+  > div.mume.markdown-preview {
+    vertical-align: middle;
+    font-size: 14px !important;
+    h2::before {
+      content: "◎";
     }
-    transition: color 0.25s;
-  }
-  &.hidered strong {
-    @media print {
-      background-color: #FFF;
+    ul {
+      list-style-type: upper-alpha;
     }
-    color: fade(#F64, 0%);
+    ol {
+      list-style-type: disc;
+    }
+    strong {
+      margin: 0 0.125em;
+      border: 1px solid black;
+      padding: 0.125em;
+      font-size: 1.25em;
+      background-color: #fff;
+      color: fade(#f55, 100%);
+      @media print {
+        color: fade(#fa5, 100%);
+      }
+      transition: color 0.2s ease-out;
+    }
+    &.hidered strong {
+      color: fade(#f55, 0%);
+    }
   }
-}
-
-.switch {
-  position: fixed;
-  display: flex;
-  align-items: center;
-  right: 0em;
-  bottom: 0em;
-  margin: 0em;
-  padding: .25em;
-  line-height: 3em;
-  vertical-align: middle;
-  white-space: nowrap;
-  background-color: #444;
-  opacity: .5;
-  span {
-    color: #FFF;
-  }
-  input {
-    width: 3em;
-    height: 3em;
-  }
-  @media print {
-    display: none;
+  > footer {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    bottom: 0rem;
+    width: 100vw;
+    height: 5vh;
+    font-size: 3vh;
+    background-color: #444;
+    color: #fff;
+    > * {
+      vertical-align: middle;
+      height: 5vh;
+      padding: 0.5vh 2vh;
+    }
+    > .back {
+      flex: calc(100% / 3);
+    }
+    // for red sheet
+    > .switch {
+      flex: calc(100% / 3);
+      color: #f55;
+    }
+    > .small {
+      flex: calc(100% / 6);
+    }
+    > .big {
+      flex: calc(100% / 6);
+    }
+    > .limiting {
+      color: #888;
+    }
+    @media print {
+      display: none;
+    }
   }
 }

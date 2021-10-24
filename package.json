@@ -4,7 +4,9 @@
   "description": "学校の勉強！",
   "main": "generateHtml.js",
   "scripts": {
-    "docs": "node generateHtml.js"
+    "docs": "node generateHtml.js",
+    "server": "node server.js",
+    "start": "node generateHtml.js && node server.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +21,9 @@
   "dependencies": {},
   "devDependencies": {
     "@shd101wyy/mume": "^0.6.8",
+    "express": "^4.17.1",
     "fs-extra": "^10.0.0",
-    "glob": "^7.1.7"
+    "glob": "^7.1.7",
+    "opener": "^1.5.2"
   }
 }

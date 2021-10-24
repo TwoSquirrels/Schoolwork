@@ -100,14 +100,54 @@ const find = util.promisify(glob);
           (await fs.promises.readFile(`docs/${mdPath}.html`, "utf-8"))
             .replace(
               /<title>/,
-              '<meta name="robots" content="noindex">\n      <title>'
+              '<meta name="robots" content="noindex">\n      ' +
+                ["", "/typography.css", "/forms.css"]
+                  .map(
+                    (css) =>
+                      `<link href="https://unpkg.com/sanitize.css${css}" rel="stylesheet" />`
+                  )
+                  .join("\n      ") +
+                "\n      <title>"
             )
             .replace(
               /<\/body>/,
-              '<div class="switch"><span>赤文字非表示: </span><input type="checkbox" onclick="' +
-                "document.querySelector('.markdown-preview').classList.toggle('hidered')" +
-                '" /></div>\n    </body>'
-            ),
+              "<footer>\n" +
+                // home
+                `<div class="back"><a href="${"../".repeat(
+                  (mdPath.match(/\//g) ?? []).length
+                )}">&lt; 入口へ</a></div>\n` +
+                (mdPath.match(/^暗記用\//)
+                  ? // switch
+                    '<button class="switch" onclick="' +
+                    "document.querySelector('.mume').classList.toggle('hidered')" +
+                    '">赤文字</button>\n' +
+                    // sizing script
+                    "<script>\n" +
+                    "let size = 14;\n" +
+                    "function sizing(move) {\n" +
+                    "  size += move;\n" +
+                    "  if (size <= 10) {\n" +
+                    "    size = 10;\n" +
+                    '    document.querySelector("footer .small").classList.add("limiting");\n' +
+                    '  } else document.querySelector("footer .small").classList.remove("limiting");\n' +
+                    "  if (size >= 18) {\n" +
+                    "    size = 18;\n" +
+                    '    document.querySelector("footer .big").classList.add("limiting");\n' +
+                    '  } else document.querySelector("footer .big").classList.remove("limiting");\n' +
+                    '  document.querySelector(".mume").style.setProperty("font-size", `${size}px`, "important");\n' +
+                    '  docunent.querySelectorAll(".mume img").forEach((img) => {\n' +
+                    '    img.style.setAttribute("width", `{img.naturalWidth * size / 14}px`);\n' +
+                    '    img.style.setAttribute("height", `{img.naturalHeight * size / 14}px`);\n' +
+                    "  });\n" +
+                    "}\n" +
+                    "</script>\n" +
+                    // small
+                    '<button class="small" onclick="sizing(-1)">-</button>\n' +
+                    // big
+                    '<button class="big" onclick="sizing(1)">+</button>\n'
+                  : "") +
+                "</footer>\n</body>"
+            ) + "\n",
           "utf-8"
         );
 
@@ -130,24 +170,51 @@ const find = util.promisify(glob);
   );
 
   // generate index page
-  let index = `\
+  function mapping(mapPath) {
+    let md = "";
+    try {
+      (function recursive(current, depth = 0) {
+        current.forEach((item) => {
+          if (item.dir) {
+            md += `${"  ".repeat(depth)}- ${item.name}\n`;
+            recursive(item.dir, depth + 1);
+          } else
+            md += `${"  ".repeat(depth)}- [${path.basename(item.name)}](${
+              item.name
+            }.html)\n`;
+        });
+      })(
+        mapPath === ""
+          ? sitemap
+          : mapPath
+              .split("/")
+              .reduce(
+                (previous, current) =>
+                  previous.find((dir) => dir.name === current).dir,
+                sitemap
+              )
+      );
+    } catch (_err) {
+      return "虚無";
+    }
+    return md;
+  }
+  await fs.promises.writeFile(
+    "docs/index.md",
+    `\
 # りすりすの勉強部屋
 
-## 暗記用 (赤シート対応)
+## 暗記用
 
-`;
-  (function mapping(current, depth) {
-    current.forEach((item) => {
-      if (item.dir) {
-        index += `${"  ".repeat(depth)}- ${item.name}\n`;
-        mapping(item.dir, depth + 1);
-      } else
-        index += `${"  ".repeat(depth)}- [${path.basename(item.name)}](${
-          item.name
-        }.html)\n`;
-    });
-  })(sitemap, 0);
-  await fs.promises.writeFile("docs/index.md", index, "utf-8");
+印刷すれば赤シートが使えるよ！  
+
+${mapping("暗記用")}
+## りすりすの巣の入口へ
+
+<a href="//twosquirrels.pages.dev/">https://twosquirrels.pages.dev/</a>
+`,
+    "utf-8"
+  );
 
   console.log("DONE!");
   process.exit();
