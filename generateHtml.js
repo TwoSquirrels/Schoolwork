@@ -113,9 +113,7 @@ const find = util.promisify(glob);
               /<\/body>/,
               "<footer>\n" +
                 // home
-                `<div class="back"><a href="${"../".repeat(
-                  (mdPath.match(/\//g) ?? []).length
-                )}">&lt; 入口へ</a></div>\n` +
+                `<div class="back"><a href="/Schoolwork/">&lt; 入口へ</a></div>\n` +
                 (mdPath.match(/^暗記用\//)
                   ? // switch
                     '<button class="switch" onclick="' +
